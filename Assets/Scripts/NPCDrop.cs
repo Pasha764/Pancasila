@@ -8,7 +8,7 @@ public class NPCDrop : MonoBehaviour, IDropHandler
         var item = eventData.pointerDrag.GetComponent<ItemDrag>();
         if (item != null)
         {
-            Debug.Log("NPC menerima item: " + item.itemName);
+            Debug.Log("NPC menerima item: " + Item.itemName);
         }
     }
 }
