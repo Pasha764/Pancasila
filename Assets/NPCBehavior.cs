@@ -8,13 +8,20 @@ public class NPCBehaviour : MonoBehaviour
     public float moveSpeed = 2f;
     public Transform exitPoint;
     public Image requestIcon;
-    public Sprite requestedItemSprite;
+
+    [Header("Item Request Random")]
+    public Sprite[] possibleItemSprites;     // ← semua item (air, beras, dll)
+    public Sprite requestedItemSprite;       // ← hasil random, tampil di UI
 
     private bool received = false;
     private bool leaving = false;
 
     void Start()
     {
+        // pilih item secara random dari array
+        requestedItemSprite = possibleItemSprites[Random.Range(0, possibleItemSprites.Length)];
+
+        // tampilkan di RequestIcon
         requestIcon.sprite = requestedItemSprite;
     }
 
