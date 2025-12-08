@@ -8,6 +8,8 @@ public class NPCBehaviour : MonoBehaviour
     public float moveSpeed = 2f;
     public Transform exitPoint;
     public Image requestIcon;
+    private GameObject currentNPC;
+    public NPCSpawner OnNPCDone;
 
     [Header("Item Request Random")]
     public Sprite[] possibleItemSprites;     // ← semua item (air, beras, dll)
@@ -59,4 +61,6 @@ public class NPCBehaviour : MonoBehaviour
         requestIcon.gameObject.SetActive(false);
         Debug.Log("Terima kasih!");
     }
+    
 }
+

@@ -145,7 +145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 2
-  exitPoint: {fileID: 0}
+  exitPoint: {fileID: 3427610939792387146}
   requestIcon: {fileID: 4552342615946388122}
   possibleItemSprites:
   - {fileID: 21300000, guid: 5081a36b55c3911448f4a8a4d14a6247, type: 3}

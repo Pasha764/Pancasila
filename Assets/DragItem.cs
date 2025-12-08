@@ -7,6 +7,7 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 {
     private Vector3 startPos;
     private Canvas canvas;
+    Transform parentAfterDrag;
 
     void Start()
     {
@@ -16,7 +17,9 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        // nothing
+        parentAfterDrag = transform.parent;
+        transform.SetParent(transform.root);
+        transform.SetAsLastSibling(); 
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -26,6 +29,7 @@ public class DragItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        transform.SetParent(parentAfterDrag);
         GameObject hit = GetNPCUnderMouse();
 
         if (hit != null)

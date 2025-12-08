@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class NPCSpawner : MonoBehaviour
 {
@@ -8,25 +9,50 @@ public class NPCSpawner : MonoBehaviour
     public Transform spawnPoint;
     public float spawnDelay = 2f;
 
-    private bool canSpawn = true;
+    private GameObject currentNPC;
+    private bool canSpawn = false;
+    public Action OnNPCDone;
 
-    void Update()
+    private void Start()
     {
-        if (canSpawn)
+        canSpawn = true;
+    }
+
+    private void Update()
+    {
+        // hanya spawn kalau tidak ada NPC dan spawner siap
+        if (canSpawn && currentNPC == null)
         {
             SpawnNPC();
         }
     }
 
-    void SpawnNPC()
+    private void SpawnNPC()
     {
         canSpawn = false;
-        Instantiate(npcPrefab, spawnPoint.position, Quaternion.identity);
+
+        // buat NPC baru
+        currentNPC = Instantiate(npcPrefab, spawnPoint.position, Quaternion.identity);
+
+        // ambil skrip NPCBehaviour
+        NPCBehaviour npc = currentNPC.GetComponent<NPCBehaviour>();
+
+        // hubungkan callback
+        npc.OnNPCDone = OnNPCFinished;
+
+        // delay spawn berikutnya
         Invoke(nameof(EnableSpawn), spawnDelay);
     }
 
-    void EnableSpawn()
+    private void EnableSpawn()
     {
         canSpawn = true;
     }
+
+    private void OnNPCFinished()
+    {
+        // beri tahu bahwa NPC sudah hilang
+        currentNPC = null;
+    }
+    
 }
