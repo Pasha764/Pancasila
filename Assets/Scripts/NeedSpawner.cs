@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class NeedSpawner : MonoBehaviour
 {
+    public static string itemName;
+    private string air = itemName;
+    private string beras = itemName;
     public GameObject Air;
     public GameObject Food;
 

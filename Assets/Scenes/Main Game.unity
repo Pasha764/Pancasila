@@ -287,6 +287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdb1c19f6131e7745aa65971cdca6639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  requiredItemID: Air
 --- !u!1 &669966401
 GameObject:
   m_ObjectHideFlags: 0
@@ -1228,6 +1229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c19325d2ecab649b26fb8daf30f233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: Beras
 --- !u!225 &1967038426
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1341,6 +1343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92c19325d2ecab649b26fb8daf30f233, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemID: Air
 --- !u!1 &2130681939 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 459737650389279883, guid: bf5c9e80201ee9b4f83491dc5e97e184, type: 3}

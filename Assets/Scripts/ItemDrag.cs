@@ -6,6 +6,7 @@ public class ItemDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
     Transform parentAfterDrag;
+    public string itemID;
     private void Awake()
     {
         rectTransform = GetComponent<RectTransform>();

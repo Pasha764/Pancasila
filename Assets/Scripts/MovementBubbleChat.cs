@@ -18,7 +18,7 @@ public class MovementBubbleChat : MonoBehaviour
     }
 
     void Update()
-{
+    {
     // gerak NPC
     transform.position = Vector3.MoveTowards(
         transform.position,
