@@ -38,7 +38,6 @@ public class NPCSpawner : MonoBehaviour
         NPCBehaviour npc = currentNPC.GetComponent<NPCBehaviour>();
 
         // hubungkan callback
-        npc.OnNPCDone = OnNPCFinished;
 
         // delay spawn berikutnya
         Invoke(nameof(EnableSpawn), spawnDelay);

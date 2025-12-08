@@ -11,7 +11,7 @@ public class MovementBubbleChat : MonoBehaviour
     public bool hasArrived = false;
     public NeedSpawner needSpawner;
 
-    void Start() // ← ini harus kapital S !!!
+    void Start() 
     {
         BubbleChat.SetActive(false);
         

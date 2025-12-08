@@ -1,66 +1,103 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class NPCBehaviour : MonoBehaviour
 {
+    [Header("Gerakan")]
     public float moveSpeed = 2f;
-    public Transform exitPoint;
+    public Transform middlePoint;     // titik tengah
+    public Transform exitPoint;       // titik keluar
+    public float maxScale = 1.3f;
+    public float growSpeed = 1f;
+
+    [Header("UI Request")]
+    public GameObject bubbleChat;
     public Image requestIcon;
-    private GameObject currentNPC;
-    public NPCSpawner OnNPCDone;
 
-    [Header("Item Request Random")]
-    public Sprite[] possibleItemSprites;     // ← semua item (air, beras, dll)
-    public Sprite requestedItemSprite;       // ← hasil random, tampil di UI
+    [Header("Item Random")]
+    public Sprite[] possibleItemSprites;
+    public Sprite requestedItemSprite;
 
-    private bool received = false;
+    [HideInInspector]
+    public Action OnNPCDone;          // callback untuk spawner
+
+    private bool arrivedMiddle = false;
     private bool leaving = false;
 
     void Start()
     {
-        // pilih item secara random dari array
-        requestedItemSprite = possibleItemSprites[Random.Range(0, possibleItemSprites.Length)];
+        bubbleChat.SetActive(false);
 
-        // tampilkan di RequestIcon
-        requestIcon.sprite = requestedItemSprite;
+    // --- Atur middlePoint ke tengah kamera ---
+    if (middlePoint != null)
+    {
+        Vector3 camPos = Camera.main.transform.position;
+        camPos.z = 0; // NPC biasanya di z=0
+        middlePoint.position = camPos;
+    }
+
+    // random item
+    requestedItemSprite = possibleItemSprites[UnityEngine.Random.Range(0, possibleItemSprites.Length)];
+    requestIcon.sprite = requestedItemSprite;
     }
 
     void Update()
     {
-        if (!received)
+        if (!arrivedMiddle && !leaving)
         {
-            // jalan ke tengah
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                new Vector3(0, transform.position.y, 0),
-                moveSpeed * Time.deltaTime
-            );
+            MoveAndGrow();
         }
         else if (leaving)
         {
-            // keluar
-            transform.position = Vector3.MoveTowards(
-                transform.position,
-                exitPoint.position,
-                moveSpeed * Time.deltaTime
-            );
-
-            if (Vector3.Distance(transform.position, exitPoint.position) < 0.1f)
-            {
-                Destroy(gameObject);
-            }
+            LeaveArea();
         }
     }
 
+    void MoveAndGrow()
+    {
+        // --- Gerak ke tengah ---
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            middlePoint.position,
+            moveSpeed * Time.deltaTime
+        );
+
+        // --- Grow ---
+        if (transform.localScale.x < maxScale)
+        {
+            float newScale = transform.localScale.x + growSpeed * Time.deltaTime;
+            transform.localScale = new Vector3(newScale, newScale, 1);
+        }
+
+        // --- Sampai ---
+        if (Vector3.Distance(transform.position, middlePoint.position) < 0.05f)
+        {
+            arrivedMiddle = true;
+            bubbleChat.SetActive(true);      // munculkan bubble
+        }
+    }
+
+    // dipanggil ketika player memberi item
     public void ReceiveItem()
     {
-        received = true;
-        leaving = true;
-        requestIcon.gameObject.SetActive(false);
-        Debug.Log("Terima kasih!");
+        bubbleChat.SetActive(false);
+        leaving = true;       // aktifkan fase pulang
     }
-    
-}
 
+    void LeaveArea()
+    {
+        transform.position = Vector3.MoveTowards(
+            transform.position,
+            exitPoint.position,
+            moveSpeed * Time.deltaTime
+        );
+
+        // jika sampai di exit
+        if (Vector3.Distance(transform.position, exitPoint.position) < 0.05f)
+        {
+            OnNPCDone?.Invoke();     // beritahu spawner
+            Destroy(gameObject);
+        }
+    }
+}
