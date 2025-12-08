@@ -32,5 +32,6 @@ public class ItemDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
         transform.SetParent(parentAfterDrag);
+        
     }
 }
